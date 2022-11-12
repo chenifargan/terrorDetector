@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "132699552336",
+    "project_id": "terrordetector",
+    "storage_bucket": "terrordetector.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:132699552336:android:c22213041d3a7eb6706f55",
+        "android_client_info": {
+          "package_name": "com.example.terrordetector"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "132699552336-sfnihctvn27irnos9ihksdiskcnqnr5e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCt_pOF5vCoRijbHLJKpKfhsKD1nJOH4i0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "132699552336-sfnihctvn27irnos9ihksdiskcnqnr5e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
