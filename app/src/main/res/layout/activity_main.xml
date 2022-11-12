@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="80dp"
-        android:text="Enter a word to search for"
+        android:text="Search for"
         android:textSize="40sp"
         android:textColor="@color/black"
         android:textStyle="bold"
@@ -96,6 +96,8 @@
                 app:layout_constraintBottom_toTopOf="@id/view"/>
 
 
+
+
             <EditText
                 android:id="@+id/et_insertWord"
                 android:layout_width="0dp"
@@ -109,6 +111,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/iv_findWord"
                 app:layout_constraintBottom_toBottomOf="@id/iv_findWord"/>
+
 
 
 
@@ -142,6 +145,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="4dp"
+                android:onClick="popTimePicker"
                 android:hint="Time"
                 android:textColorHint="@color/black"
                 android:background="@color/white"
