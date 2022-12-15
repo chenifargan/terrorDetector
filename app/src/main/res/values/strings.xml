@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">terrorDetector</string>
+    <string name="websites"> website </string>
+
 </resources>

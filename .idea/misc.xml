@@ -6,10 +6,11 @@
         <entry key="app/src/main/res/drawable/circle.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_find_in_page.xml" value="0.13783783783783785" />
         <entry key="app/src/main/res/drawable/phone_imag.xml" value="0.12837837837837837" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.165" />
-        <entry key="app/src/main/res/layout/activity_login_step2.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_login_step2.xml" value="0.21199302081211904" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.27117050144832217" />
+        <entry key="app/src/main/res/layout/list_item.xml" value="0.19330601092896174" />
       </map>
     </option>
   </component>
