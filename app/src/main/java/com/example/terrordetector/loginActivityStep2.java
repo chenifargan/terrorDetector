@@ -26,27 +26,38 @@ import java.util.concurrent.TimeUnit;
 
 public class loginActivityStep2 extends AppCompatActivity {
 EditText phoneNumber, code;
-ImageButton nextToGetCode, nextActivity;
+Button nextToGetCode, nextActivity;
 Button notReciveCode;
+private String phoneNumberstr,userID;
 FirebaseAuth mAuth;
 String verifcationID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_step2);
+        userID = getIntent().getExtras().getString("userID");
+        phoneNumberstr = getIntent().getExtras().getString("phoneNumber");
+
         initViews();
+
+
+
+
+
+        
 
         nextToGetCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 
-                if(TextUtils.isEmpty(phoneNumber.getText().toString()))
+                if(TextUtils.isEmpty(phoneNumberstr))
                 {
                     Toast.makeText(loginActivityStep2.this,"Enter Valid Phone Number No.",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     String number = phoneNumber.getText().toString();
-                    sendverificationcode(number);
+                    sendverificationcode(phoneNumberstr);
 
                 }
 
@@ -96,9 +107,13 @@ String verifcationID;
                         if(task.isSuccessful())
                         {
                             Toast.makeText(loginActivityStep2.this,"LogIn Successful",Toast.LENGTH_SHORT).show();
+                            Intent myIntent = new Intent(loginActivityStep2.this, MainActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("userID",userID);
+                            myIntent.putExtras(bundle);
 
-                            //startActivity(new Intent(loginActivityStep2.this, MainActivity.class));
-
+                            startActivity(myIntent);
+                            finish();
                         }
                     }
                 });
@@ -144,7 +159,8 @@ private PhoneAuthProvider.OnVerificationStateChangedCallbacks
             super.onCodeSent(s,token);
             verifcationID = s;
             Toast.makeText(loginActivityStep2.this,"Code sent",Toast.LENGTH_SHORT).show();
-            code.setEnabled(true);
+           // code.setEnabled(true);
+            code.setVisibility(View.VISIBLE);
             nextToGetCode.setVisibility(View.INVISIBLE);
             nextActivity.setVisibility(View.VISIBLE);
 
@@ -160,14 +176,19 @@ private PhoneAuthProvider.OnVerificationStateChangedCallbacks
         nextActivity = findViewById(R.id.btn_nextActivity);
         mAuth = FirebaseAuth.getInstance();
     }
-
+/*
     @Override
     protected void onStart() {
         super.onStart();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if(currentUser!=null){
-            startActivity(new Intent(loginActivityStep2.this, MainActivity.class));
-            finish();
+            Intent myIntent = null;
+          //  Bundle bundle = new Bundle();
+            //bundle.putString("alertID",alertID);
+            //myIntent.putExtras(bundle);
+            myIntent= new Intent(loginActivityStep2.this, MainActivity.class);
+            startActivity(myIntent);
+            //finish();
         }
-    }
+    }*/
 }

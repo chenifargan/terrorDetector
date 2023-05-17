@@ -1,5 +1,17 @@
 <resources>
     <string name="app_name">terrorDetector</string>
-    <string name="websites"> website </string>
+    <string-array name="website">
+        <item>Tap to choose website </item>
+        <item>Facebook</item>
+        <item>Instagram</item>
+        <item>Twitter</item>
+        <item>Tik tok</item>
+
+    </string-array>
+    <string name="title_activity_maps">MapsActivity</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="api_key"> AIzaSyBtVIKvDPqXJIGDmd-MMXAwMB3y4hCUnqY</string>
 
 </resources>

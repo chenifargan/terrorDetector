@@ -25,7 +25,7 @@ import java.util.Base64;
 
 public class LoginActivity extends AppCompatActivity {
     EditText infousername, infoPassword;
-    ImageButton btnNextActivity;
+    Button btnNextActivity;
     String name, password;
     private FirebaseAuth mAuth;
     private String nameEncoded, passEncoded;
@@ -66,6 +66,8 @@ public class LoginActivity extends AppCompatActivity {
     private void sendUserSave(String name,String nameE,String pass){
         databaseReference.child("users").child(nameE).child("fullname").setValue(nameE);
         databaseReference.child("users").child(nameE).child("password").setValue(pass);
+        databaseReference.child("users").child(nameE).child("phoneNumber").setValue("0505252055");
+
     }
     private boolean toCheck(String nameE, String name, String passE,String pass){
         return nameE.equals(name)&& passE.equals(pass);
@@ -86,16 +88,25 @@ public class LoginActivity extends AppCompatActivity {
                 if(snapshot.hasChild(nameEncoded)){
                     final String getName = snapshot.child(nameEncoded).child("fullname").getValue(String.class);
                     final String getPassword = snapshot.child(nameEncoded).child("password").getValue(String.class);
+                    final String getPhoneNumber = snapshot.child(nameEncoded).child("phoneNumber").getValue(String.class);
                     boolean ok = toCheck(nameEncoded,getName,passEncoded,getPassword);
                     if(ok==true){
-                        Intent myIntent = null;
-                        myIntent= new Intent(LoginActivity.this, loginActivityStep2.class);
+                        Intent myIntent = new Intent(LoginActivity.this, loginActivityStep2.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("userID",getName);
+                        bundle.putString("phoneNumber",getPhoneNumber);
+
+                        myIntent.putExtras(bundle);
+
                         startActivity(myIntent);
+                        finish();
                     }
 
 
                 }
                 else {
+
+                    Toast.makeText(LoginActivity.this,"Unregistered user",Toast.LENGTH_SHORT).show();
                     //need to del
                     sendUserSave(name,nameEncoded,passEncoded);
                 }
