@@ -2,33 +2,46 @@ package com.example.terrordetector;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class HistoryActivity extends AppCompatActivity {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+public class HistoryActivity extends AppCompatActivity implements MyAdapter.OnRecordEventListener {
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://terrordetector-default-rtdb.firebaseio.com");
 
     private Button btnBack;
 private RecyclerView main_LST_result;
 private String userID;
     private ArrayList<Result> arrayList_Result = new ArrayList<Result>();
-
+    private  MyAdapter adapter_Result;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +49,9 @@ private String userID;
         userID = getIntent().getExtras().getString("userID");
 
         initViews();
+
+
+
 
       //  sendUserTheNewResultAndSave(userID,"Feace222book","TELkAVIV","234m","100","hiiii","c","C");
 
@@ -45,11 +61,30 @@ private String userID;
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dss: snapshot.getChildren()){
                     Result r = dss.getValue(Result.class);
+                    Log.d("TAG", r.getFeedback());
                     arrayList_Result.add(r);
-                    MyAdapter adapter_Result = new MyAdapter(HistoryActivity.this,arrayList_Result);
-                    main_LST_result.setLayoutManager(new LinearLayoutManager(HistoryActivity.this));
-                    main_LST_result.setAdapter(adapter_Result);
+
+
                 }
+                adapter_Result = new MyAdapter(HistoryActivity.this,arrayList_Result,HistoryActivity.this);
+                //main_LST_result.setLayoutManager(new GridLayoutManager(HistoryActivity.this,2));
+
+                main_LST_result.setLayoutManager(new LinearLayoutManager(HistoryActivity.this));
+                main_LST_result.setAdapter(adapter_Result);
+//                adapter_Result.setResultItemClickListener(new MyAdapter.resultItemClickListener() {
+//                    @Override
+//                    public void favoriteClicked(Result result, int position,float rating) {
+//
+//                        result.setFeedback(String.valueOf(rating));
+//                        Log.d("TAG", result.getFeedback());
+//                        main_LST_result.getAdapter().notifyItemChanged(position);
+//
+//                    }
+//                });
+
+
+
+
 
             }
 
@@ -68,11 +103,48 @@ private String userID;
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = null;
+
+                Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://10.0.2.2:8082/")
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        UpdateFeedback updateFeedback = retrofit.create(UpdateFeedback.class);
+                Call<Integer> listCall = null;
+        for (int i =0; i<arrayList_Result.size();i++) {
+             //= getResult1.getSpecificResult1(ans,"alertId","ASC",0,10);
+
+           listCall  =updateFeedback.updateFeedback(arrayList_Result.get(i).getAlertid(), arrayList_Result.get(i));
+            listCall.enqueue(new Callback<Integer>() {
+                @Override
+                public void onResponse(Call<Integer> call, Response<Integer> response) {
+                    if (!response.isSuccessful()) {
+                        Log.d("Code", "code " +response.code());
+                        //   textView.setText("Code " + response.code());
+                        return;
+                    }
+                    Log.d("MMMMM",response.body() + "\n");
+
+
+                }
+
+                @Override
+                public void onFailure(Call<Integer> call, Throwable t) {
+                    Log.d("72 chen", t.getMessage());
+
+                }
+            });
+        }
+
+
+                Intent myIntent = new Intent(HistoryActivity.this, MainActivity.class);
                 Bundle bundle = new Bundle();
+                Log.d("TAG", "onClick: "+userID);
                 bundle.putString("alertID", userID);
                 myIntent.putExtras(bundle);
-                myIntent= new Intent(HistoryActivity.this, MainActivity.class);
+              //  myIntent=
                 startActivity(myIntent);
                 finish();
             }
@@ -130,6 +202,38 @@ private String userID;
 
                     }
                 });
+
+    }
+
+    @Override
+    public void onRatingBarChange(Result item, String value,int position) {
+
+        item.setFeedback(value);
+        Log.d("cheni", item.getFeedback());
+        databaseReference.child("History").child(userID).child(String.valueOf(position)).child("feedback").setValue(value).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.d("TAG", "onSuccess: ");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("TAG", "onFailure: ");
+            }
+        });
+
+//        Gson gson = new GsonBuilder()
+//                .setLenient()
+//                .create();
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl("http://10.0.2.2:8082/")
+//                .addConverterFactory(GsonConverterFactory.create(gson))
+//                .build();
+//        UpdateFeedback updateFeedback = retrofit.create(UpdateFeedback.class);
+//        updateFeedback.updateFeedback(item.getAlertid(),item);
+
+
+
 
     }
 }

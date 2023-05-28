@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Parcelable;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -21,6 +22,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -37,7 +40,7 @@ private LottieAnimationView lottieAnimationView;
 private String userID,keyword,time,date,location,website;
 private ArrayList<Result> margeArrayList = new ArrayList<>();
     private ArrayList<Result> arrayList = new ArrayList<>();
-
+private ArrayList<Location> allLocationFound = new ArrayList<>();
 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://terrordetector-default-rtdb.firebaseio.com");
 
     @Override
@@ -56,35 +59,42 @@ DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenc
         Log.d("CHEN111111", location);
         Log.d("CHEN111111", website);
 
+
+
+        initViews();
+        if(website.equals("Tap to choose website")){
+            website="";
+        }
+
+        String ans= location+","+website+","+time+date+","+keyword;
+        // Call<List<Result>> listCall = getResult1.getSpecificResult(keyword,time,date,location,website);
+
+
+
+
+
+
+
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
-
-        initViews();
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://10.0.2.2:8082/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         GetResult getResult1 = retrofit.create(GetResult.class);
 
-         Call<List<Result>> listCall = getResult1.getSpecificResult(keyword,time,date,location,website);
-                 //getResult();
 
+        Call<List<Result>> listCall = getResult1.getSpecificResult1(ans,"alertId","ASC",0,10);
         listCall.enqueue(new Callback<List<Result>>() {
             @Override
             public void onResponse(Call<List<Result>> call, Response<List<Result>> response) {
                 if (!response.isSuccessful()) {
-                    Log.d("Code", "code " +response.code());
-                 //   textView.setText("Code " + response.code());
                     return;
                 }
-                Log.d("MMMMM","chen ifargannnnnnnnn" + "\n");
 
                 List<Result> results = response.body();
-
                 for (Result result : results) {
-
                     String alertID = result.getAlertid();
                     String website= result.getWebsite() ;
                     String location= result.getLocation() ;
@@ -93,9 +103,11 @@ DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenc
                     String text=  result.getText() ;
                     String publisher = result.getPublisher() ;
                     String keywords = result.getKeywords() ;
-                    arrayList.add(new Result(alertID,website,location,timestamp,feedback,text,publisher,keywords));
-                    //Log.d("TAG", content);
 
+                    arrayList.add(new Result(alertID,website,location,timestamp,feedback,text,publisher,keywords));
+                    allLocationFound.add(new Location( Double.parseDouble(location.split(",")[0]), Double.parseDouble(location.split(",")[1]),text));
+
+                    Log.d("TAG", text);
                 }
 
             }
@@ -164,6 +176,10 @@ DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenc
                 Intent myIntent = new Intent(RequestsActivity.this, ShowOnMapActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("userID", userID);
+                bundle.putParcelableArrayList("arraylist", allLocationFound);
+
+                //myIntent.putParcelableArrayListExtra(Result.class,arrayList);
+                //bundle.putParcelableArrayList("arraylist", (ArrayList<? extends Parcelable>) arrayList);
                 myIntent.putExtras(bundle);
                 startActivity(myIntent);
                 finish();

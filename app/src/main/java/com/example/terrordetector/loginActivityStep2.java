@@ -36,8 +36,9 @@ String verifcationID;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_step2);
-        userID = getIntent().getExtras().getString("userID");
-        phoneNumberstr = getIntent().getExtras().getString("phoneNumber");
+        userID = "Y2hlbg==";
+       // userID = getIntent().getExtras().getString("userID");
+        phoneNumberstr = "0505252055";//getIntent().getExtras().getString("phoneNumber");
 
         initViews();
 

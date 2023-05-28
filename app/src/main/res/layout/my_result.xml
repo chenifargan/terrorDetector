@@ -11,15 +11,17 @@
     android:layout_margin="10dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="452dp"
+        android:layout_height="720dp"
         android:orientation="vertical">
+
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/result_IMG_image"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_launcher_background" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,12 +38,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:textSize="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
                     android:text="Website"
                     android:textColor="@color/black"
+                    android:textSize="10dp"
                     android:textStyle="bold" />
             </RelativeLayout>
 
@@ -66,6 +68,70 @@
             </RelativeLayout>
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="did it help you?\n feedback between 1-5"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+
+                    android:textSize="8dp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="4">
+
+                <EditText
+                    android:id="@+id/ed_feedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:hint="feedback"
+                    android:inputType="number"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+
+            <!--            <RatingBar-->
+            <!--                android:id="@+id/movie_RTNG_stars"-->
+            <!--                style="@style/Widget.AppCompat.RatingBar.Small"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+
+
+            <!--                android:progressTint="#FFFF00"-->
+            <!--                android:rating="1"-->
+            <!--                android:clickable="true"-->
+            <!--                android:focusable="true"-->
+            <!--                android:secondaryProgressTint="#AEBC861C" />-->
+        </LinearLayout>
+
+
 
 
         <LinearLayout
@@ -88,8 +154,8 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
                     android:text="Location"
-                    android:textSize="10dp"
                     android:textColor="@color/black"
+                    android:textSize="10dp"
                     android:textStyle="bold" />
             </RelativeLayout>
 
@@ -136,8 +202,8 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
                     android:text="Time stamp"
-                    android:textSize="10dp"
                     android:textColor="@color/black"
+                    android:textSize="10dp"
                     android:textStyle="bold" />
             </RelativeLayout>
 
@@ -148,7 +214,8 @@
                 android:layout_weight="4">
 
                 <TextView
-                    android:id="@+id/tv_timestamp"                    android:layout_width="match_parent"
+                    android:id="@+id/tv_timestamp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
@@ -182,8 +249,8 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
                     android:text="Publisher"
-                    android:textSize="10dp"
                     android:textColor="@color/black"
+                    android:textSize="10dp"
                     android:textStyle="bold" />
             </RelativeLayout>
 
@@ -194,7 +261,8 @@
                 android:layout_weight="4">
 
                 <TextView
-                    android:id="@+id/tv_publisher"                  android:layout_width="match_parent"
+                    android:id="@+id/tv_publisher"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
@@ -207,6 +275,7 @@
             </RelativeLayout>
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -226,8 +295,8 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
                     android:text="Text"
-                    android:textSize="10dp"
                     android:textColor="@color/black"
+                    android:textSize="10dp"
                     android:textStyle="bold" />
             </RelativeLayout>
 
@@ -238,7 +307,8 @@
                 android:layout_weight="4">
 
                 <TextView
-                    android:id="@+id/tv_text"                  android:layout_width="match_parent"
+                    android:id="@+id/tv_text"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
@@ -251,9 +321,10 @@
             </RelativeLayout>
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:orientation="horizontal"
             android:padding="10dp">
 
@@ -271,15 +342,15 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
                     android:text="Keywords"
-                    android:textSize="10dp"
                     android:textColor="@color/black"
+                    android:textSize="10dp"
                     android:textStyle="bold" />
             </RelativeLayout>
 
 
             <RelativeLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_weight="4">
 
                 <TextView
@@ -296,25 +367,6 @@
                     android:textStyle="bold" />
 
             </RelativeLayout>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-
-            <RatingBar
-                android:id="@+id/movie_RTNG_stars"
-                style="@style/Widget.AppCompat.RatingBar.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:numStars="5"
-                android:progressTint="#FFFF00"
-                android:rating="3.5"
-
-                android:secondaryProgressTint="#AEBC861C" />
         </LinearLayout>
 
 
