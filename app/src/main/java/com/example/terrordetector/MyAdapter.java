@@ -1,6 +1,8 @@
 package com.example.terrordetector;
 
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -19,7 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
 
@@ -81,57 +85,37 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
             }
         });
 
-//        float rating = Float.parseFloat(result.get(position).getFeedback());
-//        rating /= 20;
-//
-//        holder._RTNG_stars.setRating(Float.parseFloat(result.get(position).getFeedback()));
-//        Log.d("TAG", ""+Float.parseFloat(result.get(position).getFeedback()));
-//        //        holder.itemView.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View v) {
-////                mClickListener.onRatingBarChange(result.get(position),4);
-////
-////            }
-////        });
-//
-//        holder._RTNG_stars.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-//            @Override
-//            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-//                mClickListener.onRatingBarChange(result.get(position),rating);
-//            }
-//        });
 
+        String locationName = result.get(position).getLocation();
+        Geocoder geocoder = new Geocoder(context);
+        double latitude=0;
+        double longitude=0;
+        try {
+            List<Address> addresses = geocoder.getFromLocationName(locationName, 1);
 
+            if (addresses != null && !addresses.isEmpty()) {
+                Address address = addresses.get(0);
+                latitude = address.getLatitude();
+                 longitude = address.getLongitude();
 
-
-        //   float rating = Float.parseFloat(result.get(position).getFeedback());
-       // rating /= 20;
-       //holder._RTNG_stars.setRating(3);
-
-       /* holder._RTNG_stars.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                Log.d("TAG", "onRatingChanged: "+ rating);
-                result.get(position).setFeedback(String.valueOf(rating));
-                holder._RTNG_stars.setRating(rating);
-
-                //float rating1 = this._RTNG_stars.getRating();
-
-
+                Log.d("Latitude ","Latitude: " + latitude);
+                //System.out.println("Longitude: " + longitude);
+            } else {
+                Log.d("TAG", "No coordinates found for the given location name.");
             }
-        });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-*/
-        String str = result.get(position).getLocation();
-        double Latitude= 31.771959;// Double.parseDouble(str.split(",")[0]);
-        double Longitude=35.217018;//Double.parseDouble(str.split(",")[1]);
+        //double Latitude= 31.771959;// Double.parseDouble(str.split(",")[0]);
+        //double Longitude=35.217018;//Double.parseDouble(str.split(",")[1]);
 
         int imageWidth= holder.result_IMG_image.getWidth()+500;
         int imageHeight = holder.result_IMG_image.getHeight()+500;
       //  https://maps.googleapis.com/maps/api/staticmap?size=500x500&path=color:0x0000ff|weight:5|31.0461,34.8516&zoom=15&key=AIzaSyDTMuClb0tvUOdv6BpjZmQ0nSCianAR7gw
         String url = "https://maps.googleapis.com/maps/api/staticmap?"+
                 "size="+imageWidth+"x"+ imageHeight +
-                "&center=" + Latitude +","+Longitude +
+                "&center=" + latitude +","+longitude +
                 "&maptype=hybrid"+
                 "&markers= size:mid%7Ccolor:red"+
                // "&markers=color:blue%7Clabel:S%7C11211%7C11206%7C11222"+

@@ -364,10 +364,6 @@ timePickerDialog.show();
              latitude = parts[0].trim();
              longitude = parts[1].trim();
 
-
-
-
-
         }
             else if(requestCode == AutocompleteActivity.RESULT_ERROR){
             Status status = Autocomplete.getStatusFromIntent(data);

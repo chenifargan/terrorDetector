@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -22,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -68,11 +71,7 @@ DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenc
 
         String ans= location+","+website+","+time+date+","+keyword;
         // Call<List<Result>> listCall = getResult1.getSpecificResult(keyword,time,date,location,website);
-
-
-
-
-
+        Log.d("chen",ans);
 
 
         Gson gson = new GsonBuilder()
@@ -83,8 +82,6 @@ DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenc
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         GetResult getResult1 = retrofit.create(GetResult.class);
-
-
         Call<List<Result>> listCall = getResult1.getSpecificResult1(ans,"alertId","ASC",0,10);
         listCall.enqueue(new Callback<List<Result>>() {
             @Override
@@ -92,7 +89,6 @@ DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenc
                 if (!response.isSuccessful()) {
                     return;
                 }
-
                 List<Result> results = response.body();
                 for (Result result : results) {
                     String alertID = result.getAlertid();
@@ -103,8 +99,27 @@ DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenc
                     String text=  result.getText() ;
                     String publisher = result.getPublisher() ;
                     String keywords = result.getKeywords() ;
+                    String locationName="";
 
-                    arrayList.add(new Result(alertID,website,location,timestamp,feedback,text,publisher,keywords));
+                    Geocoder geocoder = new Geocoder(RequestsActivity.this);
+                    try {
+
+                        List<Address> addresses = geocoder.getFromLocation( Double.parseDouble(location.split(",")[0]), Double.parseDouble(location.split(",")[1]), 1);
+
+                        if (addresses != null && !addresses.isEmpty()) {
+                            Address address = addresses.get(0);
+                            locationName = address.getAddressLine(0); // Get the first line of the address
+
+                            Log.d("Location Name: " , locationName);
+                        } else {
+                            Log.d("no","No location found for the given coordinates.");
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    //String loc;
+
+                    arrayList.add(new Result(alertID,website,locationName,timestamp,feedback,text,publisher,keywords));
                     allLocationFound.add(new Location( Double.parseDouble(location.split(",")[0]), Double.parseDouble(location.split(",")[1]),text));
 
                     Log.d("TAG", text);
@@ -184,7 +199,7 @@ DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenc
                 startActivity(myIntent);
                 finish();
             }
-        }, 30000); // 30 seconds delay
+        }, 10000); // 10 seconds delay
 
     }
 

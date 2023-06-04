@@ -114,25 +114,22 @@ private String userID;
         UpdateFeedback updateFeedback = retrofit.create(UpdateFeedback.class);
                 Call<Integer> listCall = null;
         for (int i =0; i<arrayList_Result.size();i++) {
-             //= getResult1.getSpecificResult1(ans,"alertId","ASC",0,10);
 
            listCall  =updateFeedback.updateFeedback(arrayList_Result.get(i).getAlertid(), arrayList_Result.get(i));
             listCall.enqueue(new Callback<Integer>() {
                 @Override
                 public void onResponse(Call<Integer> call, Response<Integer> response) {
                     if (!response.isSuccessful()) {
-                        Log.d("Code", "code " +response.code());
+
                         //   textView.setText("Code " + response.code());
                         return;
                     }
-                    Log.d("MMMMM",response.body() + "\n");
 
 
                 }
 
                 @Override
                 public void onFailure(Call<Integer> call, Throwable t) {
-                    Log.d("72 chen", t.getMessage());
 
                 }
             });

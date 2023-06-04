@@ -47,9 +47,6 @@
             android:name=".loginActivityStep2"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
-            android:exported="false" />
-        <activity
             android:name=".ShowOnMapActivity"
             android:exported="false" />
         <activity

@@ -61,7 +61,7 @@ private   ArrayList<Location> locations;
                             googleMap.addMarker(markerOptions);
 
                             // Animate the camera to the marker location
-                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,15));
+                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,5));
 
 
                         }
