@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/custom_edittext">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="20dp">
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:drawablePadding="8dp"
+        android:padding="8dp"
+        android:layout_marginStart="30dp"
+        android:textStyle="bold"
+        android:layout_marginEnd="30dp"
+        android:textColor="@color/black"
+        android:layout_gravity="center"
+        android:text="At least one of the values must be filled!!"/>
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>
