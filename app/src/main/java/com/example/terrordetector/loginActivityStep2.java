@@ -36,9 +36,8 @@ String verifcationID;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_step2);
-        userID = "Y2hlbg==";
-       // userID = getIntent().getExtras().getString("userID");
-        phoneNumberstr = "0505252055";//getIntent().getExtras().getString("phoneNumber");
+        userID = getIntent().getExtras().getString("userID");
+        phoneNumberstr = getIntent().getExtras().getString("phoneNumber");
 
         initViews();
 
@@ -62,10 +61,7 @@ String verifcationID;
 
                 }
 
-                
-             /*   Intent myIntent = null;
-                myIntent= new Intent(loginActivityStep2.this, MainActivity.class);
-                startActivity(myIntent);*/
+
 
             }
         });
@@ -150,7 +146,6 @@ private PhoneAuthProvider.OnVerificationStateChangedCallbacks
         public void onVerificationFailed(@NonNull FirebaseException e) {
 
             Toast.makeText(loginActivityStep2.this,"Verification Failed",Toast.LENGTH_SHORT).show();
-            // Show a message and update the UI
         }
 
         @Override
@@ -177,19 +172,5 @@ private PhoneAuthProvider.OnVerificationStateChangedCallbacks
         nextActivity = findViewById(R.id.btn_nextActivity);
         mAuth = FirebaseAuth.getInstance();
     }
-/*
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(currentUser!=null){
-            Intent myIntent = null;
-          //  Bundle bundle = new Bundle();
-            //bundle.putString("alertID",alertID);
-            //myIntent.putExtras(bundle);
-            myIntent= new Intent(loginActivityStep2.this, MainActivity.class);
-            startActivity(myIntent);
-            //finish();
-        }
-    }*/
+
 }

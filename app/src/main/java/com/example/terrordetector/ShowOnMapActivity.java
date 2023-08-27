@@ -20,9 +20,7 @@ private ArrayList <Location >arraylist;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_on_map);
         Bundle extras = getIntent().getExtras();
-
-
-        userID = extras.getString("alertID");
+        userID = extras.getString("userID");
         arraylist = extras.getParcelableArrayList("arraylist");
         btn_back= findViewById(R.id.back_to_main);
         for (int i =0; i<arraylist.size();i++){

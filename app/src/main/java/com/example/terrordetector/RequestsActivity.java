@@ -50,7 +50,8 @@ DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_requests);
-        userID ="Y2hlbg==";// getIntent().getExtras().getString("userID");
+        userID =getIntent().getExtras().getString("userID");
+                //"Y2hlbg==";//
         keyword = getIntent().getExtras().getString("keyword");
        time = getIntent().getExtras().getString("time");
        date = getIntent().getExtras().getString("date");
@@ -70,8 +71,7 @@ DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenc
         }
 
         String ans= location+","+website+","+time+date+","+keyword;
-        // Call<List<Result>> listCall = getResult1.getSpecificResult(keyword,time,date,location,website);
-        Log.d("chen",ans);
+
 
 
         Gson gson = new GsonBuilder()

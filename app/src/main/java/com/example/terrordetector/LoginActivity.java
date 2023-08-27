@@ -101,14 +101,24 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(myIntent);
                         finish();
                     }
+                    else{
+                        if(name.equals("")){
+                            infousername.setError("cannot be empty");
+                        }
+                        if(password.equals("")){
+                            infoPassword.setError("cannot be empty");
+                        }
+
+                    }
 
 
                 }
                 else {
+                    infousername.setError("incorrect user name / password");
 
                     Toast.makeText(LoginActivity.this,"Unregistered user",Toast.LENGTH_SHORT).show();
-                    //need to del
-                    sendUserSave(name,nameEncoded,passEncoded);
+
+                   // sendUserSave(name,nameEncoded,passEncoded);
                 }
 
             }

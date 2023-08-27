@@ -8,6 +8,7 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -68,7 +69,7 @@ import okhttp3.Address;
 
 public class MainActivity extends AppCompatActivity {
 
-   private EditText infoInsertWord,infoLocation,infoTime, infoWeb,infoDate;
+   private EditText infoLocation,infoTime, infoDate;
     private Button btnShowHistory,btnMyLocation,btn;
     int hour, minute,day,month,year;
     private Spinner spinnerWebsite;
@@ -76,9 +77,9 @@ public class MainActivity extends AppCompatActivity {
     private AutoCompleteTextView autoCompleteTextViewInsertWord;
     private ArrayAdapter <String> arrayAdapterInsertWord;
     private ArrayAdapter <CharSequence> arrayAdapterSpinnerWeb;
-    private String [] itemsInsertWord ;//= {"boom","Instagram","Twitter","Tik Tok"};//need to complete word
+    private String [] itemsInsertWord ;
     private String userID;
-   // String apiKey = getString(R.string.api_key);
+    private Dialog mDialog;
    String latitude="" , coordinates,longitude="";
 
 
@@ -92,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        userID = "Y2hlbg==";//getIntent().getExtras().getString("userID");
-        Log.d("TAG", "alertId "+ userID);
+        userID ="Y2hlbg=="; //getIntent().getExtras().getString("userID");
+        //"Y2hlbg==";
         initViews();
 
 
@@ -124,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                                             super.onLocationResult(locationResult);
                                             LocationServices.getFusedLocationProviderClient(MainActivity.this)
                                                     .removeLocationUpdates(this);
-                                            Log.d("TAG", "onLocationResult: ch");
+                                         //   Log.d("TAG", "onLocationResult: ch");
                                             if(locationResult!=null && locationResult.getLocations().size()>0){
                                                 int index = locationResult.getLocations().size()-1;
                                                 double latitude = locationResult.getLocations().get(index).getLatitude();
@@ -147,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 else{
-                    Toast.makeText( MainActivity.this,"notgood",Toast.LENGTH_SHORT).show();
+                    Toast.makeText( MainActivity.this,"not good",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -166,7 +167,6 @@ public class MainActivity extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putString("userID", userID);
                 myIntent.putExtras(bundle);
-               // myIntent= new Intent(MainActivity.this, HistoryActivity.class);
                 startActivity(myIntent);
             }
         });
@@ -177,23 +177,25 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!autoCompleteTextViewInsertWord.getText().toString().equals("")||!infoTime.getText().toString().equals("")||!infoDate.getText().toString().equals("")
+                || !infoLocation.getText().toString().equals("")||!spinnerWebsite.getSelectedItem().toString().equals("Tap to choose website")) {
+                    Intent myIntent = new Intent(MainActivity.this, RequestsActivity.class);// activity google map
 
-                //need to do
+                    Bundle bundle = new Bundle();
+                    bundle.putString("userID", userID);
+                    bundle.putString("keyword", autoCompleteTextViewInsertWord.getText().toString().trim());
+                    bundle.putString("time", infoTime.getText().toString().trim());
+                    bundle.putString("date", infoDate.getText().toString().trim());
+                    bundle.putString("location", infoLocation.getText().toString().trim());
+                    bundle.putString("website", spinnerWebsite.getSelectedItem().toString());
 
-
-
-                Intent myIntent= new Intent(MainActivity.this, RequestsActivity.class);// activity google map
-
-                Bundle bundle = new Bundle();
-               bundle.putString("userID",userID);
-               bundle.putString("keyword",autoCompleteTextViewInsertWord.getText().toString().trim());
-                bundle.putString("time",infoTime.getText().toString().trim());
-                bundle.putString("date",infoDate.getText().toString().trim());
-                bundle.putString("location",infoLocation.getText().toString().trim());
-                bundle.putString("website",spinnerWebsite.getSelectedItem().toString());
-
-                myIntent.putExtras(bundle);
-                startActivity(myIntent);
+                    myIntent.putExtras(bundle);
+                    startActivity(myIntent);
+                }
+                else{
+                    mDialog.setContentView(R.layout.popup_empty);
+                    mDialog.show();
+                }
             }
         });
 
@@ -328,6 +330,7 @@ timePickerDialog.show();
 
         Places.initialize(getApplicationContext(),apiKey);
         infoLocation.setFocusable(false);
+        mDialog = new Dialog(MainActivity.this);
     }
 
     private void readfromfile() {

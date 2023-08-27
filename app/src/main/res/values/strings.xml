@@ -2,10 +2,10 @@
     <string name="app_name">terrorDetector</string>
     <string-array name="website">
         <item>Tap to choose website </item>
-        <item>Facebook</item>
-        <item>Instagram</item>
-        <item>Twitter</item>
-        <item>Tik tok</item>
+        <item>facebook</item>
+        <item>darkweb</item>
+        <item>twitter</item>
+        <item>reddit</item>
 
     </string-array>
     <string name="title_activity_maps">MapsActivity</string>

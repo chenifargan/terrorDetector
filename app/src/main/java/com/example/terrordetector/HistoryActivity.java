@@ -49,7 +49,7 @@ private String userID;
         userID = getIntent().getExtras().getString("userID");
 
         initViews();
-
+        Log.d("chen",userID);
 
 
 
@@ -139,7 +139,7 @@ private String userID;
                 Intent myIntent = new Intent(HistoryActivity.this, MainActivity.class);
                 Bundle bundle = new Bundle();
                 Log.d("TAG", "onClick: "+userID);
-                bundle.putString("alertID", userID);
+                bundle.putString("userID", userID);
                 myIntent.putExtras(bundle);
               //  myIntent=
                 startActivity(myIntent);
